@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vue-todo
+  labels:
+    app: vue-todo
+spec:
+  selector:
+    matchLabels:
+      app: vue-todo
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: vue-todo
+        tier: frontend
+    spec:
+      containers:
+      - name: vue-todo
+        image: vue-todo:v1
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vue-todo
+  labels:
+    app: vue-todo
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: vue-todo
+    tier: frontend
+  type: LoadBalancer
